@@ -1,0 +1,48 @@
+/* ./your-css-folder/styles.css */
+/* post css가 아래 3줄을 Tailwind가 갖고 있는 모든 클래스 이름으로 바꿈 
++ tailwind config file을 들여다 보고 새 클래스 이름이 있다면 그것도 추가 */
+@tailwind base;
+@tailwind components;
+
+.input {
+  @apply bg-gray-100 shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-90 py-3 px-5 rounded-lg hover:bg-yellow-100 text-black;
+}
+.searchInput {
+  @apply w-full px-5 py-1 bg-gray-50 bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-90 rounded-lg hover:bg-yellow-100 hover:bg-opacity-90 text-white;
+}
+.container {
+  @apply w-full px-5 xl:px-0 max-w-screen-xl mx-auto;
+}
+.login-screen-grid {
+  @apply grid sm:grid-cols-2 sm:justify-items-center w-full pb-4;
+}
+.login-mobile-screen {
+  @apply w-full text-center px-5 max-w-screen-sm;
+}
+.page-container {
+  @apply grid sm:grid-cols-2 justify-items-center max-w-screen-xl m-auto;
+}
+.login-form {
+  @apply grid gap-3 mt-5 w-full mb-5 text-white;
+}
+.login-h1 {
+  @apply font-semibold text-left text-3xl text-yellow-200;
+}
+.login-input-label {
+  @apply text-left font-semibold;
+}
+.viewMode {
+  @apply rounded-lg px-3 py-1 hover:text-blue-400 hover:bg-yellow-100 bg-opacity-80 transition duration-200 focus:outline-none;
+}
+.button {
+  @apply text-blue-900 hover:text-blue-400 hover:bg-yellow-100 transition duration-150 rounded-full focus:outline-none;
+}
+@tailwind utilities;
+
+@responsive {
+  @variants hover, focus, group-hover {
+    .ratate-y-180 {
+      transform: rotateY(180deg);
+    }
+  }
+}
