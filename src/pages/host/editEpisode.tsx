@@ -1,3 +1,4 @@
+import { gql, useMutation } from "@apollo/client";
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
@@ -5,8 +6,21 @@ import { useHistory, useParams } from "react-router-dom";
 import { AccountButton } from "../../components/button";
 import { FormError } from "../../components/form-error";
 import { Loader } from "../../components/loader";
-import { EditEpisodeHook } from "../../hooks/editHooks";
 import { GetEpisode } from "../../hooks/getEpisode";
+import { PODCAST_QUERY } from "../../hooks/getPodcast";
+import {
+  updateEpisodeMutation,
+  updateEpisodeMutationVariables,
+} from "../../__generated__/updateEpisodeMutation";
+
+const UPDATE_EPISODE_MUTATION = gql`
+  mutation updateEpisodeMutation($input: UpdateEpisodeInput!) {
+    updateEpisode(input: $input) {
+      ok
+      error
+    }
+  }
+`;
 
 interface IFormProps {
   title: string;
@@ -25,14 +39,27 @@ export const EditEpisode = () => {
     +podcastId,
     +episodeId,
   );
-  const [updateEpisodeMutation, { data, loading }] = EditEpisodeHook(
-    +podcastId,
-  );
+
+  const [updateEpisodeMutation, { data, loading }] = useMutation<
+    updateEpisodeMutation,
+    updateEpisodeMutationVariables
+  >(UPDATE_EPISODE_MUTATION, {
+    refetchQueries: [
+      {
+        query: PODCAST_QUERY,
+        variables: {
+          input: {
+            id: +podcastId,
+          },
+        },
+      },
+    ],
+  });
 
   const episdoe = episodeData?.getEpisode.episode;
 
   const { register, getValues, formState, handleSubmit } = useForm<IFormProps>({
-    mode: "onChange",
+    mode: "onBlur",
     defaultValues: {
       title: episdoe?.title,
       description: episdoe?.description,

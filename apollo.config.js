@@ -1,4 +1,3 @@
-// folder의 depth가 여러개라도 인식함
 module.exports = {
   client: {
     includes: ["src/**/*.{tsx,ts}"],
@@ -9,4 +8,3 @@ module.exports = {
     },
   },
 };
-// https://podcast-backend-tony.herokuapp.com/graphql

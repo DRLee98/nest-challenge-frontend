@@ -4,9 +4,22 @@ import { useForm } from "react-hook-form";
 import { useHistory, useParams } from "react-router-dom";
 import { AccountButton } from "../../components/button";
 import { FormError } from "../../components/form-error";
-import { GetPodcast } from "../../hooks/getPodcast";
-import { EditPodcastHook } from "../../hooks/editHooks";
+import { GetPodcast, PODCAST_QUERY } from "../../hooks/getPodcast";
 import { Loader } from "../../components/loader";
+import { gql, useMutation } from "@apollo/client";
+import {
+  updatePodcastMutation,
+  updatePodcastMutationVariables,
+} from "../../__generated__/updatePodcastMutation";
+
+const UPDATE_PODCAST_MUTATION = gql`
+  mutation updatePodcastMutation($input: UpdatePodcastInput!) {
+    updatePodcast(input: $input) {
+      ok
+      error
+    }
+  }
+`;
 
 interface IParamProps {
   id: string;
@@ -22,10 +35,27 @@ interface IFormProps {
 export const EditPodcast = () => {
   const history = useHistory();
   const { id } = useParams<IParamProps>();
+
+  const [updatePodcastMutation, { data, loading }] = useMutation<
+    updatePodcastMutation,
+    updatePodcastMutationVariables
+  >(UPDATE_PODCAST_MUTATION, {
+    refetchQueries: [
+      {
+        query: PODCAST_QUERY,
+        variables: {
+          input: {
+            id: +id,
+          },
+        },
+      },
+    ],
+  });
+
   const { data: podcastData } = GetPodcast(+id);
-  const [updatePodcastMutation, { data, loading }] = EditPodcastHook(+id);
+
   const { register, getValues, formState, handleSubmit } = useForm<IFormProps>({
-    mode: "onChange",
+    mode: "onBlur",
     defaultValues: {
       title: podcastData?.getPodcast.podcast?.title,
       categoryName: podcastData?.getPodcast.podcast?.category?.name,
@@ -38,8 +68,8 @@ export const EditPodcast = () => {
     },
   });
   const { title, categoryName, description, thumbnailUrl } = getValues();
-  const onSubmit = () => {
-    updatePodcastMutation({
+  const onSubmit = async () => {
+    await updatePodcastMutation({
       variables: {
         input: {
           id: +id,
@@ -52,6 +82,7 @@ export const EditPodcast = () => {
         },
       },
     });
+
     if (data?.updatePodcast.ok) {
       history.push(`/podcast/${id}`);
     }

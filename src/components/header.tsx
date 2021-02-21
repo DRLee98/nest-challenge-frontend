@@ -24,6 +24,7 @@ export const Header: React.FC = () => {
   const onClick = () => {
     isLoggedInVar(false);
     localStorage.removeItem(LOCALSTORAGE_TOKEN);
+    history.push("/");
   };
   const onSubmit = () => {
     const { term } = getValues();
