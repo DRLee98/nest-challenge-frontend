@@ -38,16 +38,16 @@ export const EditPodcast = () => {
     },
   });
   const { title, categoryName, description, thumbnailUrl } = getValues();
-  const onSubmit = async () => {
+  const onSubmit = () => {
     updatePodcastMutation({
       variables: {
         input: {
           id: +id,
           payload: {
-            ...(title !== "" && { title }),
-            ...(categoryName !== "" && { categoryName }),
-            ...(description !== "" && { description }),
-            ...(thumbnailUrl !== "" && { thumbnailUrl }),
+            ...(title && { title }),
+            ...(categoryName && { categoryName }),
+            ...(description && { description }),
+            ...(thumbnailUrl && { thumbnailUrl }),
           },
         },
       },

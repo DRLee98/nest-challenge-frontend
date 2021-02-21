@@ -40,14 +40,14 @@ export const EditEpisode = () => {
   });
 
   const { title, description } = getValues();
-  const onSubmit = async () => {
-    await updateEpisodeMutation({
+  const onSubmit = () => {
+    updateEpisodeMutation({
       variables: {
         input: {
           podcastId: +podcastId,
           episodeId: +episodeId,
-          ...(title !== "" && { title }),
-          ...(description !== "" && { description }),
+          ...(title && { title }),
+          ...(description && { description }),
         },
       },
     });
