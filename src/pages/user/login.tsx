@@ -106,9 +106,6 @@ export const Login = () => {
             {errors.email?.message && (
               <FormError errorMessage={errors.email.message} />
             )}
-            {errors.email?.type === "pattern" && (
-              <FormError errorMessage="Please enter a valid email" />
-            )}
             <input
               ref={register({ required: "Password is required" })}
               className="input"

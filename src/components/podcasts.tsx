@@ -127,7 +127,7 @@ export const Podcasts: React.FC<IPodcastProps> = ({
       </Link>
     </div>
   ) : nextTarget(target + 1 > length ? 0 : target + 1) === index ? (
-    <div className="border-4 border-yellow-200 w-96 h-card p-3 rounded-lg transition duration-200 absolute right-1/4 transform scale-90">
+    <div className="border-4 border-yellow-200 w-96 h-card p-3 rounded-lg transition duration-200 absolute left-1/4 transform scale-90">
       <Link role="link" to={`/podcast/${id}`}>
         <div
           style={{
@@ -149,7 +149,7 @@ export const Podcasts: React.FC<IPodcastProps> = ({
       </Link>
     </div>
   ) : prevTarget(target - 1 < 0 ? length : target - 1) === index ? (
-    <div className="border-4 border-yellow-200 w-96 h-card p-3 rounded-lg transition duration-200 absolute left-1/4 transform scale-90">
+    <div className="border-4 border-yellow-200 w-96 h-card p-3 rounded-lg transition duration-200 absolute right-1/4 transform scale-90">
       <Link role="link" to={`/podcast/${id}`}>
         <div
           style={{
